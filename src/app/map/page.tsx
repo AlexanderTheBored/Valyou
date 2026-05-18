@@ -1,10 +1,10 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useState, useMemo, useRef, useEffect, useCallback } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useMemo, useRef, useEffect, useCallback, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import NavbarDark from "@/components/NavbarDark";
-import { MapPin, X, Search, Loader2, ChevronUp, SlidersHorizontal } from "lucide-react";
+import { MapPin, X, Search, Loader2, ChevronUp } from "lucide-react";
 import { getAreaEstimate } from "@/lib/marketEstimate";
 
 interface NominatimResult {
@@ -27,7 +27,6 @@ const MapClientDark = dynamic(() => import("@/components/MapClientDark"), {
 interface LatLng { lat: number; lng: number }
 
 const RADIUS_OPTIONS = [2, 3, 5, 10];
-const FILTERS = ["House", "For Sale", "Any Price"];
 
 function ConfidenceBar({ pct }: { pct: number }) {
   return (
@@ -41,10 +40,23 @@ function ConfidenceBar({ pct }: { pct: number }) {
 }
 
 export default function MapPage() {
-  const [droppedPin, setDroppedPin] = useState<LatLng | null>(null);
+  return (
+    <Suspense fallback={<div className="flex h-screen items-center justify-center bg-[#f5f5f3] dark:bg-[#0f0f0e]"><div className="w-5 h-5 border-2 border-[#C3110F] border-t-transparent rounded-full animate-spin" /></div>}>
+      <MapPageInner />
+    </Suspense>
+  );
+}
+
+function MapPageInner() {
+  const searchParams = useSearchParams();
+  const [droppedPin, setDroppedPin] = useState<LatLng | null>(() => {
+    const lat = searchParams.get("lat");
+    const lng = searchParams.get("lng");
+    if (lat && lng) return { lat: parseFloat(lat), lng: parseFloat(lng) };
+    return null;
+  });
   const [radius, setRadius] = useState(2);
   const [sheetExpanded, setSheetExpanded] = useState(false);
-  const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [bottomInset, setBottomInset] = useState(0);
   const router = useRouter();
 
@@ -178,41 +190,7 @@ export default function MapPage() {
           )}
         </div>
 
-        {/* Desktop filter pills */}
-        <div className="hidden sm:flex gap-1.5">
-          {FILTERS.map((f) => (
-            <button
-              key={f}
-              className="text-[#242420]/60 dark:text-white/60 hover:text-[#242420] dark:hover:text-white border border-black/10 dark:border-white/10 hover:border-black/25 dark:hover:border-white/25 text-xs px-3 py-2 rounded-lg transition-colors whitespace-nowrap"
-            >
-              {f} ▾
-            </button>
-          ))}
-        </div>
-
-        {/* Mobile filter toggle */}
-        <button
-          onClick={() => setShowMobileFilters((s) => !s)}
-          aria-label="Filters"
-          className="sm:hidden shrink-0 w-9 h-9 flex items-center justify-center rounded-lg border border-black/10 dark:border-white/10 text-[#242420]/60 dark:text-white/60 hover:bg-black/[0.04] dark:hover:bg-white/[0.04] transition-colors"
-        >
-          <SlidersHorizontal size={14} />
-        </button>
       </div>
-
-      {/* Mobile filter row (collapsible) */}
-      {showMobileFilters && (
-        <div className="sm:hidden bg-white dark:bg-[#141413] border-b border-black/[0.07] dark:border-white/[0.07] px-3 py-2 flex gap-1.5 overflow-x-auto scrollbar-hide z-20">
-          {FILTERS.map((f) => (
-            <button
-              key={f}
-              className="shrink-0 text-[#242420]/60 dark:text-white/60 hover:text-[#242420] dark:hover:text-white border border-black/10 dark:border-white/10 text-xs px-3 py-1.5 rounded-lg transition-colors"
-            >
-              {f} ▾
-            </button>
-          ))}
-        </div>
-      )}
 
       <div className="flex flex-1 overflow-hidden relative">
         {/* Map */}

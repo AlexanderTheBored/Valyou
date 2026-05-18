@@ -196,7 +196,7 @@ function AuthForm() {
 
 export default function AuthPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<div className="min-h-screen bg-[#f5f5f3] dark:bg-[#0c0c0b]" />}>
       <AuthForm />
     </Suspense>
   );

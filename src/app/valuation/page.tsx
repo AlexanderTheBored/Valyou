@@ -40,7 +40,19 @@ function ValuationContent() {
     propertyType === "Condo" ? base.byType.Condo :
                                base.byType.Land;
 
-  const estimate  = Math.round(sqmRate * floorArea);
+  // Land is priced by lot area; houses/condos by floor area.
+  const area = propertyType === "Land" ? lotArea : floorArea;
+
+  // Bedroom count shifts value ±15% from the 3-bed baseline (not applicable to land).
+  const bedroomMultiplier =
+    propertyType === "Land" ? 1 :
+    bedrooms === 1 ? 0.86 :
+    bedrooms === 2 ? 0.93 :
+    bedrooms === 4 ? 1.07 :
+    bedrooms === 5 ? 1.15 :
+                     1.00;
+
+  const estimate  = Math.round(sqmRate * area * bedroomMultiplier);
   const variance  = 0.06 + radius * 0.028;
   const low       = Math.round(estimate * (1 - variance));
   const high      = Math.round(estimate * (1 + variance));
@@ -80,7 +92,7 @@ function ValuationContent() {
                 ₱ {estimate.toLocaleString()}
               </p>
               <p className="text-[#242420]/55 dark:text-white/55 text-sm mt-2">
-                ₱{sqmRate.toLocaleString()} / sqm · {floorArea} sqm floor area
+                ₱{sqmRate.toLocaleString()} / sqm · {area} sqm {propertyType === "Land" ? "lot area" : "floor area"}
               </p>
 
               <div className="mt-5 max-w-xs">
@@ -295,7 +307,7 @@ function ValuationContent() {
 
 export default function ValuationPage() {
   return (
-    <Suspense>
+    <Suspense fallback={<div className="min-h-screen bg-[#f5f5f3] dark:bg-[#0f0f0e] flex items-center justify-center"><div className="w-5 h-5 border-2 border-[#C3110F] border-t-transparent rounded-full animate-spin" /></div>}>
       <ValuationContent />
     </Suspense>
   );
