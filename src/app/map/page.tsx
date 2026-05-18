@@ -339,7 +339,7 @@ function SidebarContent({
       {/* Estimate */}
       {estimate && (
         <div className="p-5 space-y-4">
-          <div className="bg-[#f5f5f3] dark:bg-[#1a1a18] rounded-xl p-4 border border-black/[0.07] dark:border-white/[0.07]">
+          <div className="bg-[#f5f5f3] dark:bg-[#1a1a18] rounded-xl p-4 border border-black/[0.07] dark:border-white/[0.07] text-center">
             <p className="text-[#242420]/50 dark:text-white/50 text-[10px] uppercase tracking-[0.15em] mb-3 font-semibold">
               Fair Market Value · {radius}km radius
             </p>
@@ -354,8 +354,8 @@ function SidebarContent({
               <div className="relative h-1.5 bg-black/[0.08] dark:bg-white/[0.08] rounded-full">
                 <div className="absolute inset-y-0 left-[20%] right-[20%] bg-[#C3110F]/30 rounded-full" />
                 <div
-                  className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-[#C3110F] shadow-md shadow-[#C3110F]/40 ring-2 ring-white dark:ring-[#1a1a18]"
-                  style={{ left: "50%", transform: "translate(-50%, -50%)" }}
+                  className="absolute w-3 h-3 rounded-full bg-[#C3110F] shadow-md shadow-[#C3110F]/40 ring-2 ring-white dark:ring-[#1a1a18]"
+                  style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}
                 />
               </div>
               <div className="flex justify-between text-[10px] text-[#242420]/45 dark:text-white/45 mt-2 tabular-nums">
@@ -367,11 +367,11 @@ function SidebarContent({
           </div>
 
           <div className="grid grid-cols-2 gap-3">
-            <div className="bg-[#f5f5f3] dark:bg-[#1a1a18] rounded-lg p-3 border border-black/[0.07] dark:border-white/[0.07]">
+            <div className="bg-[#f5f5f3] dark:bg-[#1a1a18] rounded-lg p-3 border border-black/[0.07] dark:border-white/[0.07] text-center">
               <p className="text-[#242420]/45 dark:text-white/45 text-[10px] uppercase tracking-[0.15em] mb-1.5 font-semibold">Data Points</p>
               <p className="text-[#242420] dark:text-white font-bold text-sm tabular-nums">{estimate.dataPoints} sources</p>
             </div>
-            <div className="bg-[#f5f5f3] dark:bg-[#1a1a18] rounded-lg p-3 border border-black/[0.07] dark:border-white/[0.07]">
+            <div className="bg-[#f5f5f3] dark:bg-[#1a1a18] rounded-lg p-3 border border-black/[0.07] dark:border-white/[0.07] text-center">
               <p className="text-[#242420]/45 dark:text-white/45 text-[10px] uppercase tracking-[0.15em] mb-1.5 font-semibold">Activity</p>
               <p className={`font-bold text-sm ${
                 estimate.activity === "Hot" ? "text-orange-500" :

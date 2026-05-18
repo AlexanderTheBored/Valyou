@@ -15,7 +15,7 @@ type PropertyType = typeof PROPERTY_TYPES[number];
 
 function Stat({ label, value, sub }: { label: string; value: React.ReactNode; sub?: string }) {
   return (
-    <div className="bg-white dark:bg-[#141413] border border-black/[0.07] dark:border-white/[0.07] rounded-xl p-4 hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors">
+    <div className="bg-white dark:bg-[#141413] border border-black/[0.07] dark:border-white/[0.07] rounded-xl p-4 hover:border-black/[0.12] dark:hover:border-white/[0.12] transition-colors text-center">
       <p className="text-[#242420]/45 dark:text-white/45 text-[10px] uppercase tracking-[0.15em] font-semibold mb-2">{label}</p>
       <div className="text-[#242420] dark:text-white font-bold text-lg leading-none">{value}</div>
       {sub && <p className="text-[#242420]/45 dark:text-white/45 text-xs mt-1.5">{sub}</p>}
@@ -82,12 +82,12 @@ function ValuationContent() {
       {/* ── Estimate banner ── */}
       <div className="bg-white dark:bg-[#141413] border-b border-black/[0.07] dark:border-white/[0.07]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
-          <p className="text-[#242420]/45 dark:text-white/45 text-[10px] uppercase tracking-[0.15em] mb-3 sm:mb-4 font-semibold">
+          <p className="text-[#242420]/45 dark:text-white/45 text-[10px] uppercase tracking-[0.15em] mb-3 sm:mb-4 font-semibold text-center">
             Fair Market Value · {radius}km Radius
           </p>
 
-          <div className="flex flex-wrap items-end justify-between gap-6">
-            <div className="flex-1 min-w-0">
+          <div className="flex flex-col items-center gap-6">
+            <div className="w-full text-center">
               <p className="text-[#242420] dark:text-white text-4xl sm:text-5xl font-bold tracking-tight tabular-nums leading-none valyou-fade-up">
                 ₱ {estimate.toLocaleString()}
               </p>
@@ -95,12 +95,12 @@ function ValuationContent() {
                 ₱{sqmRate.toLocaleString()} / sqm · {area} sqm {propertyType === "Land" ? "lot area" : "floor area"}
               </p>
 
-              <div className="mt-5 max-w-xs">
+              <div className="mt-5 max-w-xs mx-auto">
                 <div className="relative h-1.5 bg-black/[0.08] dark:bg-white/[0.08] rounded-full">
                   <div className="absolute inset-y-0 left-[18%] right-[18%] bg-[#C3110F]/25 rounded-full" />
                   <div
-                    className="absolute top-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-[#C3110F] shadow-md shadow-[#C3110F]/40 ring-2 ring-white dark:ring-[#141413]"
-                    style={{ left: `${rangePct}%`, transform: "translate(-50%, -50%)" }}
+                    className="absolute w-3.5 h-3.5 rounded-full bg-[#C3110F] shadow-md shadow-[#C3110F]/40 ring-2 ring-white dark:ring-[#141413]"
+                    style={{ left: `${rangePct}%`, top: "50%", transform: "translate(-50%, -50%)" }}
                   />
                 </div>
                 <div className="flex justify-between text-xs text-[#242420]/45 dark:text-white/45 mt-2 tabular-nums">
@@ -109,7 +109,7 @@ function ValuationContent() {
                 </div>
               </div>
 
-              <div className="flex items-center gap-3 mt-4">
+              <div className="flex items-center justify-center gap-3 mt-4">
                 <div className="h-1 w-28 bg-black/[0.08] dark:bg-white/[0.08] rounded-full overflow-hidden">
                   <div
                     className="h-full bg-[#C3110F] rounded-full transition-[width] duration-500 ease-out"
@@ -154,7 +154,7 @@ function ValuationContent() {
           <Stat
             label="Market Activity"
             value={
-              <span className={`flex items-center gap-1.5 ${
+              <span className={`flex items-center justify-center gap-1.5 ${
                 base.activity === "Hot"    ? "text-orange-500" :
                 base.activity === "Active" ? "text-emerald-600 dark:text-emerald-400" :
                                              "text-[#242420]/70 dark:text-white/70"
@@ -169,7 +169,7 @@ function ValuationContent() {
 
         {/* Property details */}
         <div className="bg-white dark:bg-[#141413] border border-black/[0.07] dark:border-white/[0.07] rounded-xl p-5 sm:p-6">
-          <p className="text-[#242420]/50 dark:text-white/50 text-[10px] uppercase tracking-[0.15em] mb-5 font-semibold">
+          <p className="text-[#242420]/50 dark:text-white/50 text-[10px] uppercase tracking-[0.15em] mb-5 font-semibold text-center">
             Property Details
           </p>
 
@@ -233,7 +233,7 @@ function ValuationContent() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-black/[0.07] dark:border-white/[0.07]">
+            <div className="pt-4 border-t border-black/[0.07] dark:border-white/[0.07] text-center">
               <p className="text-[#242420]/45 dark:text-white/45 text-[10px] uppercase tracking-[0.15em] mb-1 font-semibold">
                 Adjusted Estimate
               </p>
@@ -249,7 +249,7 @@ function ValuationContent() {
 
         {/* Price by property type */}
         <div className="bg-white dark:bg-[#141413] border border-black/[0.07] dark:border-white/[0.07] rounded-xl p-5 sm:p-6">
-          <p className="text-[#242420]/50 dark:text-white/50 text-[10px] uppercase tracking-[0.15em] mb-5 font-semibold">
+          <p className="text-[#242420]/50 dark:text-white/50 text-[10px] uppercase tracking-[0.15em] mb-5 font-semibold text-center">
             Price per sqm by Property Type · {radius}km radius
           </p>
 
@@ -284,7 +284,7 @@ function ValuationContent() {
         <div className="bg-white dark:bg-[#141413] border border-black/[0.07] dark:border-white/[0.07] rounded-xl p-5 sm:p-6">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
             <div>
-              <p className="text-[#242420]/50 dark:text-white/50 text-[10px] uppercase tracking-[0.15em] mb-2 font-semibold">
+              <p className="text-[#242420]/50 dark:text-white/50 text-[10px] uppercase tracking-[0.15em] mb-2 font-semibold text-center">
                 About This Estimate
               </p>
               <p className="text-[#242420]/70 dark:text-white/70 text-sm leading-relaxed max-w-2xl">
