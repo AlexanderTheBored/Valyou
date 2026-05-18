@@ -7,8 +7,24 @@
   --background: #f5f5f3;
   --foreground: #242420;
   --primary: #C3110F;
+  --primary-hover: #a80e0d;
   --muted: #D9D9D9;
   --dark: #242420;
+  --surface: #ffffff;
+  --surface-2: #eaeae8;
+  --border: rgba(0, 0, 0, 0.07);
+  --border-strong: rgba(0, 0, 0, 0.12);
+  --grid-line: #000;
+}
+
+.dark {
+  --background: #0f0f0e;
+  --foreground: #ffffff;
+  --surface: #141413;
+  --surface-2: #1a1a18;
+  --border: rgba(255, 255, 255, 0.07);
+  --border-strong: rgba(255, 255, 255, 0.12);
+  --grid-line: #fff;
 }
 
 @theme inline {
@@ -18,38 +34,110 @@
   --color-muted: var(--muted);
   --color-dark: var(--dark);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+}
+
+html {
+  background: var(--background);
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-feature-settings: "cv11", "ss01", "ss03";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Smooth theme transitions */
-*, *::before, *::after {
-  transition-property: background-color, border-color, color, fill, stroke;
-  transition-duration: 200ms;
-  transition-timing-function: ease;
+/* Targeted theme transition — applies ONLY when the theme class changes,
+   never on hover/focus/normal interactions. Avoids a universal selector hit. */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition-property: background-color, border-color, color, fill, stroke !important;
+  transition-duration: 220ms !important;
+  transition-timing-function: ease !important;
 }
 
-/* But don't transition transforms, opacity, or layout properties */
-.no-transition-colors {
-  transition: none;
+/* Better focus rings — keyboard only */
+:where(button, a, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Refined selection color */
+::selection {
+  background: rgba(195, 17, 15, 0.18);
+  color: var(--foreground);
+}
+
+/* Slim, subtle scrollbar */
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.12);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.dark *::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.22);
+  background-clip: padding-box;
+  border: 2px solid transparent;
+}
+.dark *::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }
 
 .leaflet-container {
   height: 100%;
   width: 100%;
+  background: var(--background);
 }
 
-/* ── Pin drop animation ── */
+/* Subtle leaflet attribution */
+.leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.75) !important;
+  font-size: 10px !important;
+  backdrop-filter: blur(6px);
+}
+.dark .leaflet-control-attribution {
+  background: rgba(15, 15, 14, 0.75) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
+}
+.dark .leaflet-control-attribution a {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ── Pin drop animation ──
+   Anchor is the pin's visible tip. transform-origin pins the tip at that
+   anchor so scaling grows the bulb upward without moving the tip. translateY
+   goes from -20 → 0 only — never below — so the tip stays at or above the
+   geographic point throughout the animation. */
 @keyframes valyouPinDrop {
-  0%   { transform: translateY(-44px) scale(0.5); opacity: 0; }
-  55%  { transform: translateY(8px)   scale(1.12); opacity: 1; }
-  75%  { transform: translateY(-4px)  scale(0.93); }
-  90%  { transform: translateY(2px)   scale(1.03); }
+  0%   { transform: translateY(-20px) scale(0.4); opacity: 0; }
+  60%  { transform: translateY(0)     scale(1.14); opacity: 1; }
+  80%  { transform: translateY(0)     scale(0.94); }
   100% { transform: translateY(0)     scale(1);    opacity: 1; }
 }
 
@@ -61,7 +149,8 @@ body {
 .valyou-pin-drop {
   width: 20px;
   height: 20px;
-  animation: valyouPinDrop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: 50% 135%;
+  animation: valyouPinDrop 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .valyou-pin-ripple {
@@ -77,9 +166,49 @@ body {
   pointer-events: none;
 }
 
+/* ── Subtle fade-in for content reveal ── */
+@keyframes valyouFadeUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.valyou-fade-up {
+  animation: valyouFadeUp 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Shimmer for skeleton/loading states ── */
+@keyframes valyouShimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.valyou-shimmer {
+  background: linear-gradient(90deg,
+    rgba(0,0,0,0.04) 0%,
+    rgba(0,0,0,0.08) 50%,
+    rgba(0,0,0,0.04) 100%);
+  background-size: 200% 100%;
+  animation: valyouShimmer 1.4s ease-in-out infinite;
+}
+.dark .valyou-shimmer {
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 100%);
+  background-size: 200% 100%;
+}
+
 /* hide scrollbar for horizontal strips */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
 
 @media print {
   .no-print { display: none !important; }
