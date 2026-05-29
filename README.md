@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Valyou — Frontend
+
+Web frontend for Valyou, a property-valuation tool, built with [Next.js 16](https://nextjs.org).
 
 ## Getting Started
 
-First, run the development server:
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> The app is auth-gated: unauthenticated requests are redirected to `/auth` by `src/proxy.ts` (Next 16's middleware).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Valuation Report
 
-## Learn More
+The valuation report is the property-valuation result page, and the main focus of recent work. Its code is split so the UI is easy to iterate on:
 
-To learn more about Next.js, take a look at the following resources:
+| File | Responsibility |
+| --- | --- |
+| [`src/components/ValuationReport.tsx`](src/components/ValuationReport.tsx) | **Presentation** — all the report markup, driven entirely by props. Edit this to change how the report looks. |
+| [`src/app/valuation/page.tsx`](src/app/valuation/page.tsx) | **Logic** — auth, submitting the valuation, polling the backend, PDF export, and recalculation. |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Preview the report standalone
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+To work on the report UI **without logging in or running the backend**, open:
 
-## Deploy on Vercel
+**[http://localhost:3000/valuation/preview](http://localhost:3000/valuation/preview)**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+This route ([`src/app/valuation/preview/page.tsx`](src/app/valuation/preview/page.tsx)) renders `ValuationReport` with mock data, so you can style it in isolation. Edit `ValuationReport.tsx` and the page hot-reloads.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Dev-only — the route returns 404 in production builds.
+- The map tiles need network access; **Export PDF** and **Update & Recalculate** are no-ops here (they require the backend).
+
+## Configuration
+
+- `NEXT_PUBLIC_API_URL` (in `.env.local`) — base URL of the backend API.
+- This is Next.js 16; some conventions differ from older versions (e.g. middleware lives in `src/proxy.ts`). See [`AGENTS.md`](AGENTS.md).
