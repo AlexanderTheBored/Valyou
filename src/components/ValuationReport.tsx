@@ -12,6 +12,10 @@ import {
   Coins,
   CheckCircle2,
   Loader2,
+  Home,
+  LandPlot,
+  CalendarDays,
+  Radar,
 } from "lucide-react";
 
 const MapClientDark = dynamic(() => import("@/components/MapClientDark"), {
@@ -106,6 +110,10 @@ export default function ValuationReport({
   onDownloadPDF,
   onClosePreview,
 }: ValuationReportProps) {
+  const r2Pct = Math.round(valuation.r_squared * 100);
+  const gaugeCirc = 2 * Math.PI * 42;
+  const gaugeOffset = gaugeCirc * (1 - valuation.r_squared);
+
   return (
     <div className="min-h-screen bg-[#f5f5f3] dark:bg-[#0f0f0e] text-[#242420] dark:text-white flex flex-col">
       <div className="no-print"><NavbarDark /></div>
@@ -256,65 +264,105 @@ export default function ValuationReport({
 
         {/* Property Profile & Model Fit Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Parameters Table */}
+          {/* Property Profile — icon tiles */}
           <div className="bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-xl p-5 sm:p-6 shadow-sm">
             <h3 className="text-xs font-bold text-[#242420] dark:text-white uppercase tracking-[0.15em] mb-4">
               Property Profile
             </h3>
 
-            <div className="divide-y divide-black/[0.04] dark:divide-white/[0.04] text-sm">
-              <div className="flex justify-between py-2.5">
-                <span className="text-[#242420]/70 dark:text-white/70">Property Type</span>
-                <span className="font-semibold text-[#242420] dark:text-white">House &amp; Lot</span>
-              </div>
-              <div className="flex justify-between py-2.5">
-                <span className="text-[#242420]/70 dark:text-white/70">Lot Area</span>
-                <span className="font-semibold text-[#242420] dark:text-white tabular-nums">{valuation.area} sqm</span>
-              </div>
-              <div className="flex justify-between py-2.5">
-                <span className="text-[#242420]/70 dark:text-white/70">Property Age</span>
-                <span className="font-semibold text-[#242420] dark:text-white tabular-nums">
-                  {valuation.age} {valuation.age === 1 ? "year" : "years"}
-                </span>
-              </div>
-              <div className="flex justify-between py-2.5">
-                <span className="text-[#242420]/70 dark:text-white/70">Search Area Radius</span>
-                <span className="font-semibold text-[#242420] dark:text-white tabular-nums">{valuation.scan_area} km</span>
-              </div>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { icon: Home, label: "Property Type", value: "House & Lot" },
+                { icon: LandPlot, label: "Lot Area", value: `${valuation.area} sqm` },
+                {
+                  icon: CalendarDays,
+                  label: "Property Age",
+                  value: `${valuation.age} ${valuation.age === 1 ? "year" : "years"}`,
+                },
+                { icon: Radar, label: "Search Radius", value: `${valuation.scan_area} km` },
+              ].map(({ icon: Icon, label, value }) => (
+                <div
+                  key={label}
+                  className="bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl p-3.5"
+                >
+                  <div className="flex items-center gap-2 mb-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-[#C3110F]/[0.08] flex items-center justify-center shrink-0">
+                      <Icon size={14} className="text-[#C3110F] dark:text-[#E52E2C]" />
+                    </div>
+                    <span className="text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-wider leading-tight">
+                      {label}
+                    </span>
+                  </div>
+                  <p className="text-base font-bold text-[#242420] dark:text-white tabular-nums">{value}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Quality and R2 Fit */}
-          <div className="bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col justify-between">
-            <div>
-              <h3 className="text-xs font-bold text-[#242420] dark:text-white uppercase tracking-[0.15em] mb-4">
-                Valuation Reliability
-              </h3>
+          {/* Valuation Reliability — radial gauge + stats */}
+          <div className="bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col">
+            <h3 className="text-xs font-bold text-[#242420] dark:text-white uppercase tracking-[0.15em] mb-4">
+              Valuation Reliability
+            </h3>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl p-3.5 text-center">
-                  <p className="text-[10px] font-bold text-[#242420]/60 dark:text-white/60 uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-5 sm:gap-6">
+              {/* R² radial gauge */}
+              <div className="relative w-28 h-28 shrink-0">
+                <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="42"
+                    fill="none"
+                    strokeWidth="9"
+                    className="stroke-black/[0.07] dark:stroke-white/10"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="42"
+                    fill="none"
+                    strokeWidth="9"
+                    strokeLinecap="round"
+                    className="stroke-[#C3110F] dark:stroke-[#E52E2C]"
+                    strokeDasharray={gaugeCirc}
+                    strokeDashoffset={gaugeOffset}
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-2xl font-black text-[#242420] dark:text-white tabular-nums leading-none">
+                    {r2Pct}%
+                  </span>
+                  <span className="text-[9px] font-bold uppercase tracking-wider text-[#242420]/45 dark:text-white/45 mt-1">
+                    R² Fit
+                  </span>
+                </div>
+              </div>
+
+              {/* Supporting stats */}
+              <div className="flex-1 space-y-4 min-w-0">
+                <div>
+                  <p className="text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-wider mb-1">
                     Listings Used
                   </p>
-                  <p className="text-xl font-black text-[#242420] dark:text-white tabular-nums">
+                  <p className="text-2xl font-black text-[#242420] dark:text-white tabular-nums leading-none">
                     {valuation.listings_used}
+                    <span className="text-xs font-medium text-[#242420]/50 dark:text-white/50 ml-1.5">comparisons</span>
                   </p>
-                  <p className="text-[11px] text-[#242420]/55 dark:text-white/55 mt-1">Comparisons in area</p>
                 </div>
-
-                <div className="bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl p-3.5 text-center">
-                  <p className="text-[10px] font-bold text-[#242420]/60 dark:text-white/60 uppercase tracking-wider mb-1">
-                    Model Fit (R²)
+                <div>
+                  <p className="text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-wider mb-1.5">
+                    Confidence
                   </p>
-                  <p className="text-xl font-black text-[#C3110F] dark:text-[#E52E2C] tabular-nums">
-                    {Math.round(valuation.r_squared * 100)}%
-                  </p>
-                  <p className="text-[11px] text-[#242420]/55 dark:text-white/55 mt-1">Variance explained</p>
+                  <span className="inline-flex items-center gap-1.5 bg-emerald-500/[0.08] text-emerald-600 dark:text-emerald-400 rounded-full px-2.5 py-1 text-xs font-bold">
+                    <Sparkles size={12} />
+                    {valuation.confidence}
+                  </span>
                 </div>
               </div>
             </div>
 
-            <p className="text-[11px] text-[#242420]/55 dark:text-white/55 leading-relaxed mt-4 no-print">
+            <p className="text-[11px] text-[#242420]/55 dark:text-white/55 leading-relaxed mt-5 no-print">
               The R-squared (R²) score represents statistical goodness-of-fit. Ratings above 70% represent excellent alignment with current geographical market trends.
             </p>
           </div>
