@@ -1,0 +1,106 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Frontend Package
+    runs-on: ghostine-server
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Build Next.js Application in Docker
+        run: |
+          docker run --rm \
+            -v "${{ github.workspace }}:/app" \
+            -v "${HOME}/.cache/valyou-frontend-npm:/root/.npm" \
+            -v "${HOME}/.cache/valyou-frontend-next-cache:/app/.next/cache" \
+            -w /app \
+            -e NEXT_PUBLIC_API_URL="${{ vars.NEXT_PUBLIC_API_URL }}" \
+            -e NEXT_PUBLIC_DEBUG="${{ vars.NEXT_PUBLIC_DEBUG }}" \
+            node:20 sh -c "
+              npm ci &&
+              npm run build
+            "
+
+      - name: Package Standalone Output
+        run: |
+          cp -r public .next/standalone/public
+          cp -r .next/static .next/standalone/.next/static
+          tar -czf frontend.tar.gz -C .next/standalone .
+
+      - name: Upload Package Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: frontend
+          path: frontend.tar.gz
+          if-no-files-found: error
+
+  deploy:
+    name: Deploy to Backend Server
+    runs-on: backend-server
+    needs: build
+    steps:
+      - name: Download Package Artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: frontend
+          path: ./tmp_build
+
+      - name: Prepare Target Directory
+        run: |
+          sudo mkdir -p /opt/valyou-frontend
+          sudo chown -R $USER:$USER /opt/valyou-frontend
+
+      - name: Stop systemd Service
+        run: |
+          sudo systemctl stop valyou-frontend || true
+
+      - name: Extract Package
+        run: |
+          tar -xzf ./tmp_build/frontend.tar.gz -C /opt/valyou-frontend
+
+      - name: Create .env File
+        run: |
+          sudo tee /opt/valyou-frontend/.env > /dev/null << 'EOF'
+          PORT=3000
+          NEXT_PUBLIC_API_URL=${{ vars.NEXT_PUBLIC_API_URL }}
+          NEXT_PUBLIC_DEBUG=${{ vars.NEXT_PUBLIC_DEBUG }}
+          EOF
+          sudo chmod 600 /opt/valyou-frontend/.env
+          sudo chown ubuntu:ubuntu /opt/valyou-frontend/.env
+
+      - name: Configure Systemd Service
+        run: |
+          sudo tee /etc/systemd/system/valyou-frontend.service > /dev/null << 'EOF'
+          [Unit]
+          Description=Valyou Frontend Service
+          After=network.target
+
+          [Service]
+          Type=simple
+          User=ubuntu
+          WorkingDirectory=/opt/valyou-frontend
+          ExecStart=/usr/bin/node server.js
+          Restart=always
+          RestartSec=5
+          StandardOutput=journal
+          StandardError=journal
+          SyslogIdentifier=valyou-frontend
+          EnvironmentFile=/opt/valyou-frontend/.env
+
+          [Install]
+          WantedBy=multi-user.target
+          EOF
+
+      - name: Restart systemd Service
+        run: |
+          sudo systemctl daemon-reload
+          sudo systemctl enable valyou-frontend
+          sudo systemctl restart valyou-frontend
+          sudo systemctl status valyou-frontend --no-pager || true

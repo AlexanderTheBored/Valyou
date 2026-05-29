@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+/* ── Map circle animations ───────────────────────────────────────────────── */
+/* Handled via inline style transitions in MapClientDark.tsx so they survive  */
+/* Leaflet's internal SVG redraws (triggered by map.stop / viewport changes). */
