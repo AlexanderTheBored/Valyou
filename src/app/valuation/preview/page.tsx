@@ -2,32 +2,16 @@
 
 import { useState } from "react";
 import { notFound } from "next/navigation";
-import ValuationReport, { ValuationData } from "@/components/ValuationReport";
+import ValuationReport from "@/components/ValuationReport";
+import {
+  MOCK_VALUATION,
+  MOCK_ADDRESS,
+  MOCK_PRIMARY_LOCATION,
+  MOCK_SECONDARY_LOCATION,
+} from "./mock-data";
 
 // Standalone harness for iterating on the report UI without auth or a backend.
-// Edit ValuationReport.tsx and refresh /valuation/preview to see changes live.
-const MOCK_VALUATION: ValuationData = {
-  id: "preview",
-  latitude: 10.3157,
-  longitude: 123.8854,
-  scan_area: 1,
-  area: 150,
-  age: 5,
-  type: "hnl",
-  market_value: 55000,
-  zonal_value: 12000,
-  scraped_value: 60000,
-  total_value: 8250000,
-  listings_used: 24,
-  r_squared: 0.82,
-  confidence: "High",
-  status: "completed",
-  created_at: new Date().toISOString(),
-  province: "CEBU",
-  city: "CEBU CITY",
-  barangay: "LAHUG",
-  street: "SALINAS DRIVE",
-};
+// Placeholder values live in ./mock-data.ts — edit there to tweak what the preview shows.
 
 export default function ValuationPreviewPage() {
   const [selectedProvince, setSelectedProvince] = useState(MOCK_VALUATION.province ?? "");
@@ -43,9 +27,9 @@ export default function ValuationPreviewPage() {
   return (
     <ValuationReport
       valuation={MOCK_VALUATION}
-      address="Salinas Drive, Lahug, Cebu City, Central Visayas, Philippines"
-      primaryLocation="Salinas Drive"
-      secondaryLocation="Lahug, Cebu City, Central Visayas"
+      address={MOCK_ADDRESS}
+      primaryLocation={MOCK_PRIMARY_LOCATION}
+      secondaryLocation={MOCK_SECONDARY_LOCATION}
       onModifyParams={noop}
       onExportPDF={noop}
       isExporting={false}
