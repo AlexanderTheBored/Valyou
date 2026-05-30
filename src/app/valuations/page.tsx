@@ -132,7 +132,7 @@ export default function ValuationsHistoryPage() {
   const rest = valuations.length > 1 ? valuations.slice(1) : [];
 
   return (
-    <div className="min-h-screen bg-[#f5f5f3] dark:bg-[#0f0f0e] text-[#242420] dark:text-white flex flex-col">
+    <div className="min-h-screen bg-canvas text-ink flex flex-col">
       <NavbarDark />
       
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 pt-10 pb-20">
@@ -141,7 +141,7 @@ export default function ValuationsHistoryPage() {
         <div className="flex items-end justify-between gap-4 mb-10">
           <div>
             <p className="text-[10px] font-bold text-[#C3110F] dark:text-[#E52E2C] uppercase tracking-[0.18em] mb-1.5">Dashboard</p>
-            <h1 className="text-2xl font-black tracking-tight text-[#242420] dark:text-white leading-none">
+            <h1 className="text-2xl font-black tracking-tight text-ink leading-none">
               Valuation Reports
             </h1>
           </div>
@@ -160,7 +160,7 @@ export default function ValuationsHistoryPage() {
             <AlertCircle className="w-4 h-4 text-[#C3110F] shrink-0 mt-0.5" />
             <div>
               <p className="text-sm font-bold text-[#C3110F]">Unable to load reports</p>
-              <p className="text-xs text-[#242420]/55 dark:text-white/55 mt-0.5">{errorMsg}</p>
+              <p className="text-xs text-ink/55 mt-0.5">{errorMsg}</p>
             </div>
           </div>
         )}
@@ -169,7 +169,7 @@ export default function ValuationsHistoryPage() {
         {isLoading ? (
           <div className="space-y-6">
             {/* Featured skeleton */}
-            <div className="bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl p-6 sm:p-8 shadow-sm">
+            <div className="bg-surface border border-black/[0.06] dark:border-white/[0.06] rounded-2xl p-6 sm:p-8 shadow-sm">
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-3 w-20 bg-black/[0.06] dark:bg-white/[0.06] rounded-full animate-pulse" />
                 <div className="h-5 w-14 bg-black/[0.04] dark:bg-white/[0.04] rounded-full animate-pulse" />
@@ -179,7 +179,7 @@ export default function ValuationsHistoryPage() {
               <div className="h-8 w-40 bg-black/[0.06] dark:bg-white/[0.06] rounded animate-pulse" />
             </div>
             {/* Row skeletons */}
-            <div className="bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-xl overflow-hidden shadow-sm">
+            <div className="bg-surface border border-black/[0.06] dark:border-white/[0.06] rounded-xl overflow-hidden shadow-sm">
               {[0,1,2].map((i) => (
                 <div key={i} className={`flex items-center gap-4 px-5 py-4 ${i > 0 ? "border-t border-black/[0.04] dark:border-white/[0.04]" : ""}`}>
                   <div className="h-2 w-2 rounded-full bg-black/[0.08] dark:bg-white/[0.08] animate-pulse" />
@@ -194,15 +194,15 @@ export default function ValuationsHistoryPage() {
           </div>
         ) : valuations.length === 0 ? (
           /* ── Empty State ──────────────────────────────────────── */
-          <div className="bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl shadow-sm">
+          <div className="bg-surface border border-black/[0.06] dark:border-white/[0.06] rounded-2xl shadow-sm">
             <div className="px-6 sm:px-8 py-16 sm:py-20 flex flex-col items-center text-center">
               <div className="w-12 h-12 rounded-xl bg-[#C3110F]/[0.07] flex items-center justify-center mb-5">
                 <MapPin className="w-5 h-5 text-[#C3110F]" />
               </div>
-              <h3 className="text-base font-bold text-[#242420] dark:text-white mb-1">
+              <h3 className="text-base font-bold text-ink mb-1">
                 No reports yet
               </h3>
-              <p className="text-sm text-[#242420]/45 dark:text-white/45 max-w-[280px] leading-relaxed mb-8">
+              <p className="text-sm text-ink/45 max-w-[280px] leading-relaxed mb-8">
                 Pin a location on the map to generate your first property valuation report.
               </p>
               <Link
@@ -224,14 +224,14 @@ export default function ValuationsHistoryPage() {
               return (
                 <div
                   onClick={() => isClickable && router.push(`/valuation?id=${latest.id}`)}
-                  className={`bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-2xl shadow-sm overflow-hidden group ${
+                  className={`bg-surface border border-black/[0.06] dark:border-white/[0.06] rounded-2xl shadow-sm overflow-hidden group ${
                     isClickable ? "cursor-pointer hover:border-black/[0.12] dark:hover:border-white/[0.12] hover:shadow-md transition-all duration-200" : ""
                   }`}
                 >
                   <div className="p-6 sm:p-8">
                     {/* Top meta line */}
                     <div className="flex items-center gap-2.5 mb-5">
-                      <p className="text-[10px] font-bold text-[#242420]/40 dark:text-white/40 uppercase tracking-[0.15em]">
+                      <p className="text-[10px] font-bold text-ink/40 uppercase tracking-[0.15em]">
                         Latest Report
                       </p>
                       {latest.status === "processing" ? (
@@ -253,10 +253,10 @@ export default function ValuationsHistoryPage() {
                     </div>
 
                     {/* Location block */}
-                    <h2 className="text-lg sm:text-xl font-bold text-[#242420] dark:text-white leading-snug mb-0.5 truncate">
+                    <h2 className="text-lg sm:text-xl font-bold text-ink leading-snug mb-0.5 truncate">
                       {loc.title}
                     </h2>
-                    <p className="text-xs text-[#242420]/40 dark:text-white/40 font-medium truncate mb-1">
+                    <p className="text-xs text-ink/40 font-medium truncate mb-1">
                       {loc.subtitle}
                     </p>
                     <p className="text-[10px] text-[#C3110F] dark:text-[#E52E2C] font-mono bg-black/[0.03] dark:bg-white/[0.03] px-1.5 py-0.5 rounded w-fit select-all mb-6">
@@ -271,29 +271,29 @@ export default function ValuationsHistoryPage() {
                             {latest.error_message || "Valuation could not be completed"}
                           </p>
                         ) : latest.status === "processing" ? (
-                          <p className="text-xs text-[#242420]/40 dark:text-white/40 font-medium">
+                          <p className="text-xs text-ink/40 font-medium">
                             Running spatial analysis…
                           </p>
                         ) : latest.total_value ? (
                           <>
-                            <p className="text-[9px] font-bold text-[#242420]/35 dark:text-white/35 uppercase tracking-[0.15em] mb-1">Estimated Fair Value</p>
-                            <p className="text-3xl sm:text-4xl font-black text-[#242420] dark:text-white tracking-tight tabular-nums leading-none">
+                            <p className="text-[9px] font-bold text-ink/35 uppercase tracking-[0.15em] mb-1">Estimated Fair Value</p>
+                            <p className="text-3xl sm:text-4xl font-black text-ink tracking-tight tabular-nums leading-none">
                               ₱{latest.total_value.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                             </p>
                             {latest.market_value && (
-                              <p className="text-[11px] text-[#242420]/40 dark:text-white/40 font-medium mt-1.5">
+                              <p className="text-[11px] text-ink/40 font-medium mt-1.5">
                                 ₱{Math.round(latest.market_value).toLocaleString()}/sqm · {latest.lot_area || latest.area} sqm
                               </p>
                             )}
                           </>
                         ) : (
-                          <p className="text-xs text-[#242420]/45 dark:text-white/45 font-medium">Report available</p>
+                          <p className="text-xs text-ink/45 font-medium">Report available</p>
                         )}
                       </div>
 
                       <div className="flex items-center gap-4 shrink-0">
                         {/* Property details */}
-                        <div className="flex items-center gap-3 text-[11px] font-medium text-[#242420]/40 dark:text-white/40">
+                        <div className="flex items-center gap-3 text-[11px] font-medium text-ink/40">
                           <span className="inline-flex items-center gap-1">
                             <Maximize2 size={10} />
                             {latest.lot_area || latest.area} sqm
@@ -324,11 +324,11 @@ export default function ValuationsHistoryPage() {
             {/* ── Previous Reports Table ──────────────────────── */}
             {rest.length > 0 && (
               <div>
-                <p className="text-[10px] font-bold text-[#242420]/40 dark:text-white/40 uppercase tracking-[0.18em] mb-3 pl-1">
+                <p className="text-[10px] font-bold text-ink/40 uppercase tracking-[0.18em] mb-3 pl-1">
                   Previous Reports
-                  <span className="ml-2 text-[#242420]/25 dark:text-white/25 font-semibold normal-case tracking-normal">{rest.length}</span>
+                  <span className="ml-2 text-ink/25 font-semibold normal-case tracking-normal">{rest.length}</span>
                 </p>
-                <div className="bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-xl overflow-hidden shadow-sm">
+                <div className="bg-surface border border-black/[0.06] dark:border-white/[0.06] rounded-xl overflow-hidden shadow-sm">
                   {rest.map((v, i) => {
                     const loc = formatLocation(v);
                     const isClickable = v.status !== "processing";
@@ -348,13 +348,13 @@ export default function ValuationsHistoryPage() {
 
                         {/* Location */}
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm font-semibold text-[#242420] dark:text-white truncate leading-tight">
+                          <p className="text-sm font-semibold text-ink truncate leading-tight">
                             {loc.title}
                           </p>
                           <div className="flex items-center gap-2 mt-0.5">
-                            <span className="text-[11px] text-[#242420]/35 dark:text-white/35 font-medium truncate">{loc.subtitle}</span>
-                            <span className="hidden sm:inline text-[10px] text-[#242420]/25 dark:text-white/25">·</span>
-                            <span className="hidden sm:inline text-[10px] text-[#242420]/25 dark:text-white/25 font-medium shrink-0">
+                            <span className="text-[11px] text-ink/35 font-medium truncate">{loc.subtitle}</span>
+                            <span className="hidden sm:inline text-[10px] text-ink/25">·</span>
+                            <span className="hidden sm:inline text-[10px] text-ink/25 font-medium shrink-0">
                               {v.lot_area || v.area} sqm · {v.age}y
                             </span>
                           </div>
@@ -367,21 +367,21 @@ export default function ValuationsHistoryPage() {
                           ) : v.status === "processing" ? (
                             <p className="text-[10px] text-amber-500/70 font-medium">Processing…</p>
                           ) : v.total_value ? (
-                            <p className="text-sm font-bold text-[#242420] dark:text-white tabular-nums tracking-tight">
+                            <p className="text-sm font-bold text-ink tabular-nums tracking-tight">
                               ₱{v.total_value.toLocaleString(undefined, { maximumFractionDigits: 0 })}
                             </p>
                           ) : (
-                            <p className="text-[10px] text-[#242420]/35 dark:text-white/35">—</p>
+                            <p className="text-[10px] text-ink/35">—</p>
                           )}
                         </div>
 
                         {/* Time + Arrow */}
                         <div className="flex items-center gap-2 shrink-0">
-                          <span className="text-[10px] text-[#242420]/30 dark:text-white/30 font-medium tabular-nums w-12 text-right">
+                          <span className="text-[10px] text-ink/30 font-medium tabular-nums w-12 text-right">
                             {formatRelativeDate(v.created_at)}
                           </span>
                           {isClickable && (
-                            <ArrowRight size={12} className="text-[#242420]/15 dark:text-white/15 group-hover/row:text-[#C3110F] dark:group-hover/row:text-[#E52E2C] transition-colors" />
+                            <ArrowRight size={12} className="text-ink/15 group-hover/row:text-[#C3110F] dark:group-hover/row:text-[#E52E2C] transition-colors" />
                           )}
                         </div>
                       </div>

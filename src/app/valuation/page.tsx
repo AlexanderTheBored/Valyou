@@ -547,7 +547,7 @@ function ValuationContent() {
     const displayLng = parseFloat(lngParam || valuation?.longitude?.toString() || initialParamsRef.current.lng || "0");
 
     return (
-      <div className="min-h-screen bg-[#f5f5f3] dark:bg-[#0f0f0e] text-[#242420] dark:text-white flex flex-col">
+      <div className="min-h-screen bg-canvas text-ink flex flex-col">
         <NavbarDark />
         <div className="flex-1 flex flex-col items-center justify-center px-4 py-12">
           {/* Radar Scanning Ring */}
@@ -560,11 +560,11 @@ function ValuationContent() {
           </div>
 
           {/* Status Processing Box */}
-          <div className="w-full max-w-md bg-white/90 dark:bg-[#141413]/90 backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] rounded-2xl p-6 shadow-2xl text-center">
-            <h3 className="text-sm font-bold text-[#242420] dark:text-white uppercase tracking-widest mb-2">
+          <div className="w-full max-w-md bg-surface/90 backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] rounded-2xl p-6 shadow-2xl text-center">
+            <h3 className="text-sm font-bold text-ink uppercase tracking-widest mb-2">
               Computing Fair Value
             </h3>
-            <p className="text-sm text-[#242420]/65 dark:text-white/65 min-h-[48px] flex items-center justify-center font-medium px-2 transition-all">
+            <p className="text-sm text-ink/65 min-h-[48px] flex items-center justify-center font-medium px-2 transition-all">
               {loadingMessages[loadingStep]}
             </p>
 
@@ -576,7 +576,7 @@ function ValuationContent() {
               />
             </div>
 
-            <div className="mt-5 text-[10px] text-[#242420]/45 dark:text-white/45 font-mono tracking-wider uppercase leading-relaxed border-t border-black/[0.05] dark:border-white/[0.05] pt-4">
+            <div className="mt-5 text-[10px] text-ink/45 font-mono tracking-wider uppercase leading-relaxed border-t border-black/[0.05] dark:border-white/[0.05] pt-4">
               Lot Area: {displayArea} sqm · Property Age: {displayAge} yrs
               <br />
               Scan Radius: {displayRadius}km · Lat: {displayLat.toFixed(4)}, Lng: {displayLng.toFixed(4)}
@@ -590,16 +590,16 @@ function ValuationContent() {
   // 2. Error UI
   if (status === "failed") {
     return (
-      <div className="min-h-screen bg-[#f5f5f3] dark:bg-[#0f0f0e] text-[#242420] dark:text-white flex flex-col">
+      <div className="min-h-screen bg-canvas text-ink flex flex-col">
         <NavbarDark />
         <div className="flex-1 flex flex-col items-center justify-center px-4 text-center">
           <div className="w-16 h-16 rounded-full bg-[#C3110F]/10 flex items-center justify-center mb-6">
             <AlertCircle className="w-8 h-8 text-[#C3110F]" />
           </div>
-          <h3 className="text-lg font-bold text-[#242420] dark:text-white mb-2">
+          <h3 className="text-lg font-bold text-ink mb-2">
             Valuation Failed
           </h3>
-          <p className="text-sm text-[#242420]/65 dark:text-white/65 max-w-sm mb-6 leading-relaxed">
+          <p className="text-sm text-ink/65 max-w-sm mb-6 leading-relaxed">
             {errorMsg || "An error occurred while compiling your valuation report. Please try again."}
           </p>
           <button
@@ -652,7 +652,7 @@ function ValuationContent() {
 export default function ValuationPage() {
   return (
     <Suspense fallback={
-      <div className="min-h-screen bg-[#f5f5f3] dark:bg-[#0f0f0e] flex items-center justify-center">
+      <div className="min-h-screen bg-canvas flex items-center justify-center">
         <div className="w-5 h-5 border-2 border-[#C3110F] border-t-transparent rounded-full animate-spin" />
       </div>
     }>

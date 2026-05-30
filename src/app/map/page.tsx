@@ -18,7 +18,7 @@ interface NominatimResult {
 const MapClientDark = dynamic(() => import("@/components/MapClientDark"), {
   ssr: false,
   loading: () => (
-    <div className="flex-1 bg-[#f5f5f3] dark:bg-[#0f0f0e] flex items-center justify-center">
+    <div className="flex-1 bg-canvas flex items-center justify-center">
       <div className="w-5 h-5 border-2 border-[#C3110F] border-t-transparent rounded-full animate-spin" />
     </div>
   ),
@@ -31,7 +31,7 @@ const RADIUS_VALUES = [1, 2, 3, 5, 10];
 export default function MapPage() {
   return (
     <Suspense fallback={
-      <div className="flex h-screen items-center justify-center bg-[#f5f5f3] dark:bg-[#0f0f0e]">
+      <div className="flex h-screen items-center justify-center bg-canvas">
         <div className="w-5 h-5 border-2 border-[#C3110F] border-t-transparent rounded-full animate-spin" />
       </div>
     }>
@@ -180,7 +180,7 @@ function MapPageInner() {
   };
 
   return (
-    <div className="flex flex-col h-screen overflow-hidden bg-[#f5f5f3] dark:bg-[#0f0f0e] relative">
+    <div className="flex flex-col h-screen overflow-hidden bg-canvas relative">
       <NavbarDark />
 
       <div className="flex-1 relative overflow-hidden">
@@ -196,7 +196,7 @@ function MapPageInner() {
 
         {/* Pin dropping helper */}
         {!droppedPin && (
-          <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-white/90 dark:bg-[#141413]/90 backdrop-blur-md text-[#242420]/80 dark:text-white/80 text-xs px-4 py-2.5 rounded-full z-10 flex items-center gap-1.5 border border-black/[0.08] dark:border-white/[0.08] shadow-lg pointer-events-none transition-opacity duration-300">
+          <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-surface/90 backdrop-blur-md text-ink/80 text-xs px-4 py-2.5 rounded-full z-10 flex items-center gap-1.5 border border-black/[0.08] dark:border-white/[0.08] shadow-lg pointer-events-none transition-opacity duration-300">
             <MapPin size={12} className="text-[#C3110F] animate-pulse" />
             Tap anywhere on the map to place a pin
           </div>
@@ -205,7 +205,7 @@ function MapPageInner() {
         {/* Merged Unified Container (Top Right / Top Center on Mobile) */}
         <div
           ref={searchContainerRef}
-          className="absolute top-4 left-4 right-4 md:right-4 md:left-auto md:w-[420px] z-10 bg-white/90 dark:bg-[#141413]/90 backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] rounded-2xl shadow-2xl transition-all duration-[420ms] ease-in-out flex flex-col overflow-visible"
+          className="absolute top-4 left-4 right-4 md:right-4 md:left-auto md:w-[420px] z-10 bg-surface/90 backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] rounded-2xl shadow-2xl transition-all duration-[420ms] ease-in-out flex flex-col overflow-visible"
           style={{
             maxHeight: droppedPin ? "450px" : "66px"
           }}
@@ -216,7 +216,7 @@ function MapPageInner() {
               {isSearching ? (
                 <Loader2 size={14} className="text-[#C3110F] shrink-0 animate-spin" />
               ) : (
-                <Search size={14} className="text-[#242420]/40 dark:text-white/40 shrink-0" />
+                <Search size={14} className="text-ink/40 shrink-0" />
               )}
               <input
                 type="text"
@@ -225,7 +225,7 @@ function MapPageInner() {
                 onFocus={() => suggestions.length > 0 && setShowDropdown(true)}
                 placeholder="Search location to begin..."
                 aria-label="Search location"
-                className="flex-1 min-w-0 bg-transparent text-[#242420] dark:text-white text-sm outline-none placeholder:text-[#242420]/35 dark:placeholder:text-white/35"
+                className="flex-1 min-w-0 bg-transparent text-ink text-sm outline-none placeholder:text-ink/35"
               />
               {(searchQuery || droppedPin) && (
                 <button
@@ -236,7 +236,7 @@ function MapPageInner() {
                     setDroppedPin(null);
                   }}
                   aria-label="Clear all"
-                  className="text-[#242420]/35 hover:text-[#242420]/70 dark:text-white/35 dark:hover:text-white/70 transition-colors"
+                  className="text-ink/35 hover:text-ink/70 transition-colors"
                 >
                   <X size={13} />
                 </button>
@@ -246,7 +246,7 @@ function MapPageInner() {
             <button
               onClick={handleGetCurrentLocation}
               disabled={isLocating}
-              className="p-2.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/5 dark:border-white/5 hover:bg-black/[0.06] dark:hover:bg-white/[0.06] hover:border-[#C3110F]/30 text-[#242420] dark:text-white rounded-xl transition-all flex items-center justify-center shrink-0 relative group disabled:opacity-50"
+              className="p-2.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/5 dark:border-white/5 hover:bg-black/[0.06] dark:hover:bg-white/[0.06] hover:border-[#C3110F]/30 text-ink rounded-xl transition-all flex items-center justify-center shrink-0 relative group disabled:opacity-50"
               aria-label="Use current location"
             >
               {isLocating ? (
@@ -263,7 +263,7 @@ function MapPageInner() {
 
           {/* Search Dropdown Overlay */}
           {showDropdown && suggestions.length > 0 && (
-            <ul className="absolute top-[64px] left-2.5 right-2.5 max-h-[220px] overflow-y-auto bg-white/95 dark:bg-[#141413]/95 backdrop-blur-md border border-black/10 dark:border-white/10 rounded-xl shadow-2xl z-20 overflow-hidden divide-y divide-black/[0.04] dark:divide-white/[0.04] valyou-fade-up">
+            <ul className="absolute top-[64px] left-2.5 right-2.5 max-h-[220px] overflow-y-auto bg-surface/95 backdrop-blur-md border border-black/10 dark:border-white/10 rounded-xl shadow-2xl z-20 overflow-hidden divide-y divide-black/[0.04] dark:divide-white/[0.04] valyou-fade-up">
               {suggestions.map((r, i) => {
                 const [primary, ...rest] = r.display_name.split(", ");
                 const secondary = rest.slice(0, 3).join(", ");
@@ -275,9 +275,9 @@ function MapPageInner() {
                     >
                       <MapPin size={14} className="text-[#C3110F] shrink-0 mt-0.5" />
                       <div className="min-w-0">
-                        <p className="text-[#242420] dark:text-white text-sm font-medium truncate">{primary}</p>
+                        <p className="text-ink text-sm font-medium truncate">{primary}</p>
                         {secondary && (
-                          <p className="text-[#242420]/45 dark:text-white/45 text-xs truncate mt-0.5">{secondary}</p>
+                          <p className="text-ink/45 text-xs truncate mt-0.5">{secondary}</p>
                         )}
                       </div>
                     </button>
@@ -301,11 +301,11 @@ function MapPageInner() {
                     <MapPin size={16} className="text-[#C3110F]" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <h2 className="text-[#242420] dark:text-white font-bold text-sm truncate leading-tight">
+                    <h2 className="text-ink font-bold text-sm truncate leading-tight">
                       {primaryLocation}
                     </h2>
                     {secondaryLocation && (
-                      <p className="text-[11px] text-[#242420]/50 dark:text-white/50 truncate mt-0.5 font-medium leading-none">
+                      <p className="text-[11px] text-ink/50 truncate mt-0.5 font-medium leading-none">
                         {secondaryLocation}
                       </p>
                     )}
@@ -317,7 +317,7 @@ function MapPageInner() {
 
                 {/* Snapping Radius Slider */}
                 <div className="bg-black/[0.02] dark:bg-white/[0.02] border border-black/5 dark:border-white/5 rounded-xl p-4">
-                  <label className="block text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-[0.18em] mb-3">
+                  <label className="block text-[10px] font-bold text-ink/55 uppercase tracking-[0.18em] mb-3">
                     Search Radius
                   </label>
                   <div className="relative px-1 select-none">
@@ -332,12 +332,12 @@ function MapPageInner() {
                       onTouchEnd={handleDragEnd}
                       className="w-full accent-[#C3110F] h-1.5 bg-black/[0.08] dark:bg-white/[0.08] rounded-lg appearance-none cursor-pointer focus:outline-none"
                     />
-                    <div className="flex justify-between text-[11px] text-[#242420]/45 dark:text-white/45 mt-2.5 font-bold">
+                    <div className="flex justify-between text-[11px] text-ink/45 mt-2.5 font-bold">
                       {RADIUS_VALUES.map((val) => (
                         <span 
                           key={val} 
                           onClick={() => setRadius(val)}
-                          className={`cursor-pointer transition-colors ${radius === val ? "text-[#C3110F] dark:text-[#E52E2C]" : "hover:text-[#242420]/70 dark:hover:text-white/75"}`}
+                          className={`cursor-pointer transition-colors ${radius === val ? "text-[#C3110F] dark:text-[#E52E2C]" : "hover:text-ink/70"}`}
                         >
                           {val}km
                         </span>
@@ -351,7 +351,7 @@ function MapPageInner() {
                   <div className={`bg-black/[0.02] dark:bg-white/[0.02] border rounded-xl p-3 flex flex-col justify-between relative transition-colors ${
                     lotArea !== "" && lotArea < 1 ? "border-[#C3110F]/50 bg-[#C3110F]/[0.02]" : "border-black/5 dark:border-white/5"
                   }`}>
-                    <label className="block text-[9px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-[0.15em] mb-1">
+                    <label className="block text-[9px] font-bold text-ink/55 uppercase tracking-[0.15em] mb-1">
                       Lot Area (sqm)
                     </label>
                     <input
@@ -366,7 +366,7 @@ function MapPageInner() {
                           if (val >= 0) setLotArea(val);
                         }
                       }}
-                      className="w-full bg-transparent text-[#242420] dark:text-white text-sm font-bold outline-none border-b border-transparent focus:border-[#C3110F]/40 pb-0.5 placeholder:text-[#242420]/25 dark:placeholder:text-white/20"
+                      className="w-full bg-transparent text-ink text-sm font-bold outline-none border-b border-transparent focus:border-[#C3110F]/40 pb-0.5 placeholder:text-ink/25"
                       placeholder="e.g. 100"
                     />
                     {lotArea !== "" && lotArea < 1 && (
@@ -379,7 +379,7 @@ function MapPageInner() {
                   <div className={`bg-black/[0.02] dark:bg-white/[0.02] border rounded-xl p-3 flex flex-col justify-between relative transition-colors ${
                     age !== "" && age > 25 ? "border-[#C3110F]/50 bg-[#C3110F]/[0.02]" : "border-black/5 dark:border-white/5"
                   }`}>
-                    <label className="block text-[9px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-[0.15em] mb-1">
+                    <label className="block text-[9px] font-bold text-ink/55 uppercase tracking-[0.15em] mb-1">
                       Property Age (yrs)
                     </label>
                     <input
@@ -394,7 +394,7 @@ function MapPageInner() {
                           if (val >= 0) setAge(val);
                         }
                       }}
-                      className="w-full bg-transparent text-[#242420] dark:text-white text-sm font-bold outline-none border-b border-transparent focus:border-[#C3110F]/40 pb-0.5 placeholder:text-[#242420]/25 dark:placeholder:text-white/20"
+                      className="w-full bg-transparent text-ink text-sm font-bold outline-none border-b border-transparent focus:border-[#C3110F]/40 pb-0.5 placeholder:text-ink/25"
                       placeholder="e.g. 5"
                     />
                     {age !== "" && age > 25 && (
@@ -420,7 +420,7 @@ function MapPageInner() {
                       href={`https://www.google.com/maps/search/?api=1&query=${droppedPin.lat},${droppedPin.lng}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-3 bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 hover:bg-black/[0.08] dark:hover:bg-white/[0.08] text-[#242420] dark:text-white rounded-xl text-sm font-bold flex items-center justify-center transition-all active:scale-[0.99] h-full"
+                      className="px-4 py-3 bg-black/[0.04] dark:bg-white/[0.04] border border-black/10 dark:border-white/10 hover:bg-black/[0.08] dark:hover:bg-white/[0.08] text-ink rounded-xl text-sm font-bold flex items-center justify-center transition-all active:scale-[0.99] h-full"
                     >
                       <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>

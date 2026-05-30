@@ -7,7 +7,7 @@ import { Search, MapPin, Loader2, X } from "lucide-react";
 
 const MapClientDark = dynamic(() => import("./MapClientDark"), {
   ssr: false,
-  loading: () => <div className="w-full h-full bg-[#f5f5f3] dark:bg-[#0f0f0e]" />,
+  loading: () => <div className="w-full h-full bg-canvas" />,
 });
 
 interface NominatimResult {
@@ -90,12 +90,12 @@ export default function HeroMapClient() {
       </div>
 
       {/* Bottom fade — matches page bg in both modes */}
-      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-[#f5f5f3] dark:from-[#0f0f0e] via-[#f5f5f3]/60 dark:via-[#0f0f0e]/60 to-transparent z-[500] pointer-events-none" />
+      <div className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-canvas via-canvas/60 to-transparent z-[500] pointer-events-none" />
 
       {/* Glass panel */}
       <div className="absolute inset-x-0 bottom-0 z-[600] pb-6 sm:pb-8 px-4 sm:px-6">
-        <div className="max-w-2xl mx-auto bg-white/85 dark:bg-[#0f0f0e]/85 supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-[#0f0f0e]/70 backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] rounded-2xl p-5 sm:p-6 shadow-xl shadow-black/5 dark:shadow-black/40 valyou-fade-up">
-          <h1 className="text-[#242420] dark:text-white text-lg sm:text-xl font-bold text-center mb-5 leading-snug tracking-tight">
+        <div className="max-w-2xl mx-auto bg-surface/85 supports-[backdrop-filter]:bg-surface/70 backdrop-blur-md border border-black/[0.08] dark:border-white/[0.08] rounded-2xl p-5 sm:p-6 shadow-xl shadow-black/5 dark:shadow-black/40 valyou-fade-up">
+          <h1 className="text-ink text-lg sm:text-xl font-bold text-center mb-5 leading-snug tracking-tight">
             Know the real market value of any property in the Philippines.
           </h1>
 
@@ -107,7 +107,7 @@ export default function HeroMapClient() {
               <div className="flex-1 flex items-center gap-2.5 px-3 sm:px-4 min-w-0">
                 {isSearching
                   ? <Loader2 size={15} className="text-[#C3110F] shrink-0 animate-spin" />
-                  : <MapPin size={15} className="text-[#242420]/35 dark:text-white/35 shrink-0" />}
+                  : <MapPin size={15} className="text-ink/35 shrink-0" />}
                 <input
                   type="text"
                   value={searchQuery}
@@ -115,14 +115,14 @@ export default function HeroMapClient() {
                   onFocus={() => suggestions.length > 0 && setShowDropdown(true)}
                   placeholder="Search a location or drop a pin..."
                   aria-label="Search a location"
-                  className="flex-1 min-w-0 bg-transparent text-[#242420] dark:text-white text-sm outline-none placeholder:text-[#242420]/30 dark:placeholder:text-white/30 py-3"
+                  className="flex-1 min-w-0 bg-transparent text-ink text-sm outline-none placeholder:text-ink/30 py-3"
                 />
                 {searchQuery && (
                   <button
                     type="button"
                     onClick={() => { setSearchQuery(""); setSuggestions([]); setShowDropdown(false); }}
                     aria-label="Clear search"
-                    className="text-[#242420]/35 hover:text-[#242420]/70 dark:text-white/35 dark:hover:text-white/70 transition-colors"
+                    className="text-ink/35 hover:text-ink/70 transition-colors"
                   >
                     <X size={13} />
                   </button>
@@ -138,7 +138,7 @@ export default function HeroMapClient() {
             </form>
 
             {showDropdown && suggestions.length > 0 && (
-              <ul className="absolute bottom-full left-0 right-0 mb-1.5 bg-white dark:bg-[#1a1a18] border border-black/10 dark:border-white/10 rounded-xl shadow-xl shadow-black/10 dark:shadow-black/40 z-[2000] overflow-hidden valyou-fade-up">
+              <ul className="absolute bottom-full left-0 right-0 mb-1.5 bg-surface border border-black/10 dark:border-white/10 rounded-xl shadow-xl shadow-black/10 dark:shadow-black/40 z-[2000] overflow-hidden valyou-fade-up">
                 {suggestions.map((r, i) => {
                   const [primary, ...rest] = r.display_name.split(", ");
                   const secondary = rest.slice(0, 3).join(", ");
@@ -151,9 +151,9 @@ export default function HeroMapClient() {
                       >
                         <MapPin size={13} className="text-[#C3110F] shrink-0 mt-0.5" />
                         <div className="min-w-0">
-                          <p className="text-[#242420] dark:text-white text-sm font-medium truncate">{primary}</p>
+                          <p className="text-ink text-sm font-medium truncate">{primary}</p>
                           {secondary && (
-                            <p className="text-[#242420]/45 dark:text-white/45 text-xs truncate mt-0.5">{secondary}</p>
+                            <p className="text-ink/45 text-xs truncate mt-0.5">{secondary}</p>
                           )}
                         </div>
                       </button>
@@ -170,8 +170,8 @@ export default function HeroMapClient() {
                 key={label}
                 className={`text-center px-1 sm:px-2 ${i > 0 ? "border-l border-black/[0.07] dark:border-white/[0.07]" : ""}`}
               >
-                <p className="text-[#242420] dark:text-white font-bold text-xs sm:text-sm tabular-nums">{val}</p>
-                <p className="text-[#242420]/40 dark:text-white/40 text-[10px] sm:text-xs mt-0.5">{label}</p>
+                <p className="text-ink font-bold text-xs sm:text-sm tabular-nums">{val}</p>
+                <p className="text-ink/40 text-[10px] sm:text-xs mt-0.5">{label}</p>
               </div>
             ))}
           </div>

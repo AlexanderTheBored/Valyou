@@ -30,7 +30,7 @@ export default function OnboardingPage() {
   const router = useRouter();
 
   return (
-    <div className="min-h-screen bg-[#f5f5f3] dark:bg-[#0f0f0e] flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-12 relative overflow-hidden">
+    <div className="min-h-screen bg-canvas flex flex-col items-center justify-center px-4 sm:px-6 py-10 sm:py-12 relative overflow-hidden">
 
       {/* Background flourish */}
       <div className="absolute top-0 right-0 w-[36rem] h-[36rem] rounded-full bg-[#C3110F]/[0.06] dark:bg-[#C3110F]/[0.08] blur-[120px] pointer-events-none -translate-y-1/2 translate-x-1/3" />
@@ -40,18 +40,18 @@ export default function OnboardingPage() {
         <div className="w-8 h-8 rounded-lg bg-[#C3110F] flex items-center justify-center shadow-md shadow-[#C3110F]/30">
           <MapPin size={14} className="text-white" />
         </div>
-        <span className="font-bold text-xl sm:text-2xl text-[#242420] dark:text-white tracking-tight">
+        <span className="font-bold text-xl sm:text-2xl text-ink tracking-tight">
           Val<span className="text-[#C3110F]">you</span>
         </span>
       </div>
 
-      <div className="bg-white dark:bg-[#141413] rounded-2xl shadow-xl shadow-black/5 dark:shadow-black/40 p-6 sm:p-8 w-full max-w-2xl border border-black/[0.06] dark:border-white/[0.08] relative valyou-fade-up">
+      <div className="bg-surface rounded-2xl shadow-xl shadow-black/5 dark:shadow-black/40 p-6 sm:p-8 w-full max-w-2xl border border-black/[0.06] dark:border-white/[0.08] relative valyou-fade-up">
         <div className="text-center mb-8">
           <p className="text-[#C3110F] text-[10px] font-bold uppercase tracking-[0.18em] mb-2">Step 1 of 1</p>
-          <h1 className="text-xl sm:text-2xl font-bold text-[#242420] dark:text-white mb-2 tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-bold text-ink mb-2 tracking-tight">
             Welcome! How will you be using Valyou?
           </h1>
-          <p className="text-[#242420]/55 dark:text-white/55 text-sm">
+          <p className="text-ink/55 text-sm">
             We&apos;ll tailor your dashboard based on your role.
           </p>
         </div>
@@ -80,8 +80,8 @@ export default function OnboardingPage() {
                   }`}>
                   <role.Icon size={28} className="text-[#C3110F]" />
                 </div>
-                <h3 className="font-bold text-[#242420] dark:text-white mb-1.5">{role.title}</h3>
-                <p className="text-[#242420]/55 dark:text-white/55 text-xs leading-relaxed">{role.desc}</p>
+                <h3 className="font-bold text-ink mb-1.5">{role.title}</h3>
+                <p className="text-ink/55 text-xs leading-relaxed">{role.desc}</p>
               </button>
             );
           })}
@@ -90,7 +90,7 @@ export default function OnboardingPage() {
         <div className="flex flex-col-reverse sm:flex-row gap-3">
           <button
             onClick={() => router.push("/map")}
-            className="flex-1 border border-black/10 dark:border-white/10 text-[#242420]/55 dark:text-white/55 py-3 rounded-lg text-sm hover:text-[#242420] dark:hover:text-white hover:border-black/25 dark:hover:border-white/25 transition-colors"
+            className="flex-1 border border-black/10 dark:border-white/10 text-ink/55 py-3 rounded-lg text-sm hover:text-ink hover:border-black/25 dark:hover:border-white/25 transition-colors"
           >
             Skip for now
           </button>
@@ -99,7 +99,7 @@ export default function OnboardingPage() {
             onClick={() => router.push("/map")}
             className={`flex-1 py-3 rounded-lg font-semibold text-sm transition-all flex items-center justify-center gap-2 group ${selected
               ? "bg-[#C3110F] text-white hover:bg-[#a80e0d] active:scale-[0.98] shadow-md shadow-[#C3110F]/20 hover:shadow-lg hover:shadow-[#C3110F]/30"
-              : "bg-black/[0.06] dark:bg-white/[0.06] text-[#242420]/35 dark:text-white/35 cursor-not-allowed"
+              : "bg-black/[0.06] dark:bg-white/[0.06] text-ink/35 cursor-not-allowed"
               }`}
           >
             Continue

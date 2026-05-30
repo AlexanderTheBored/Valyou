@@ -179,15 +179,15 @@ function AuthForm() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#f5f5f3] dark:bg-[#0c0c0b] relative">
+    <div className="min-h-screen flex bg-canvas relative">
 
       {/* Floating Theme Toggle */}
       <div className="absolute top-4 right-4 z-20">
-        <ThemeToggle className="text-[#242420]/50 dark:text-white/50 hover:text-[#242420] dark:hover:text-white hover:bg-black/5 dark:hover:bg-white/10" />
+        <ThemeToggle className="text-ink/50 hover:text-ink hover:bg-black/5 dark:hover:bg-white/10" />
       </div>
 
       {/* ── Left branding panel ── */}
-      <div className="hidden md:flex w-[46%] flex-col justify-between relative overflow-hidden bg-[#eaeae8] dark:bg-[#080807] border-r border-black/[0.05] dark:border-white/[0.05] p-10 lg:p-14">
+      <div className="hidden md:flex w-[46%] flex-col justify-between relative overflow-hidden bg-canvas border-r border-black/[0.05] dark:border-white/[0.05] p-10 lg:p-14">
 
         <div
           className="absolute inset-0 opacity-[0.08] dark:opacity-[0.04] pointer-events-none"
@@ -207,7 +207,7 @@ function AuthForm() {
           <div className="w-9 h-9 rounded-xl bg-[#C3110F] flex items-center justify-center shadow-lg shadow-[#C3110F]/30 group-hover:shadow-xl group-hover:shadow-[#C3110F]/40 transition-shadow">
             <MapPin size={16} className="text-white" />
           </div>
-          <span className="text-[#242420] dark:text-white font-bold text-xl tracking-tight">
+          <span className="text-ink font-bold text-xl tracking-tight">
             Val<span className="text-[#C3110F]">you</span>
           </span>
         </Link>
@@ -219,9 +219,9 @@ function AuthForm() {
               Philippines Real Estate Intelligence
             </p>
           </div>
-          <h2 className="text-[#242420] dark:text-white font-bold text-[2.2rem] lg:text-[2.4rem] leading-[1.15] tracking-tight">
+          <h2 className="text-ink font-bold text-[2.2rem] lg:text-[2.4rem] leading-[1.15] tracking-tight">
             Know what a<br />
-            <span className="text-[#242420]/40 dark:text-white/40">property is</span><br />
+            <span className="text-ink/40">property is</span><br />
             actually worth.
           </h2>
         </div>
@@ -229,15 +229,15 @@ function AuthForm() {
         <div className="relative flex items-center divide-x divide-black/[0.08] dark:divide-white/[0.08]">
           {stats.map(({ value, label }, i) => (
             <div key={label} className={`${i === 0 ? "pr-6 lg:pr-8" : "px-6 lg:px-8"} last:pr-0`}>
-              <p className="text-[#242420] dark:text-white font-bold text-xl leading-none mb-1 tabular-nums">{value}</p>
-              <p className="text-[#242420]/45 dark:text-white/45 text-[9px] uppercase tracking-[0.18em]">{label}</p>
+              <p className="text-ink font-bold text-xl leading-none mb-1 tabular-nums">{value}</p>
+              <p className="text-ink/45 text-[9px] uppercase tracking-[0.18em]">{label}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* ── Right form panel ── */}
-      <div className="flex-1 flex flex-col items-center justify-center px-6 sm:px-8 py-10 sm:py-12 bg-[#f5f5f3] dark:bg-[#0c0c0b] relative overflow-hidden">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 sm:px-8 py-10 sm:py-12 bg-canvas relative overflow-hidden">
 
         {/* Subtle gradient orb for mobile interest */}
         <div className="md:hidden absolute -top-32 -right-20 w-72 h-72 rounded-full bg-[#C3110F]/8 blur-[80px] pointer-events-none" />
@@ -246,15 +246,15 @@ function AuthForm() {
           <div className="w-8 h-8 rounded-lg bg-[#C3110F] flex items-center justify-center shadow-md shadow-[#C3110F]/30">
             <MapPin size={14} className="text-white" />
           </div>
-          <span className="text-[#242420] dark:text-white">Val<span className="text-[#C3110F]">you</span></span>
+          <span className="text-ink">Val<span className="text-[#C3110F]">you</span></span>
         </Link>
 
         <div className="w-full max-w-[360px] relative">
 
-          <h1 className="text-[1.6rem] sm:text-[1.75rem] font-bold text-[#242420] dark:text-white tracking-tight mb-2">
+          <h1 className="text-[1.6rem] sm:text-[1.75rem] font-bold text-ink tracking-tight mb-2">
             {mode === "login" ? "Welcome back" : "Create your account"}
           </h1>
-          <p className="text-sm text-[#242420]/50 dark:text-white/50 mb-7">
+          <p className="text-sm text-ink/50 mb-7">
             {mode === "login" ? "Log in to continue valuing properties." : "Free forever. No card required."}
           </p>
 
@@ -267,7 +267,7 @@ function AuthForm() {
                 onClick={() => handleModeChange(m)}
                 className={`flex-1 py-2 text-sm font-medium rounded-md transition-all duration-200 ${mode === m
                   ? "bg-[#C3110F] text-white shadow-md shadow-[#C3110F]/20"
-                  : "text-[#242420]/50 dark:text-white/50 hover:text-[#242420]/80 dark:hover:text-white/80"
+                  : "text-ink/50 hover:text-ink/80"
                   }`}
               >
                 {m === "login" ? "Log In" : "Sign Up"}
@@ -283,7 +283,7 @@ function AuthForm() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-[0.15em] mb-1.5">
+              <label className="block text-[10px] font-bold text-ink/55 uppercase tracking-[0.15em] mb-1.5">
                 Username
               </label>
               <input
@@ -292,13 +292,13 @@ function AuthForm() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Username"
-                className="w-full bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] rounded-lg px-4 py-3 text-sm text-[#242420] dark:text-white placeholder:text-[#242420]/30 dark:placeholder:text-white/25 outline-none focus:border-[#C3110F]/60 focus:ring-2 focus:ring-[#C3110F]/15 transition-all"
+                className="w-full bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] rounded-lg px-4 py-3 text-sm text-ink placeholder:text-ink/30 outline-none focus:border-[#C3110F]/60 focus:ring-2 focus:ring-[#C3110F]/15 transition-all"
               />
             </div>
 
             {mode === "signup" && (
               <div>
-                <label className="block text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-[0.15em] mb-1.5">
+                <label className="block text-[10px] font-bold text-ink/55 uppercase tracking-[0.15em] mb-1.5">
                   Email
                 </label>
                 <input
@@ -307,14 +307,14 @@ function AuthForm() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
-                  className="w-full bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] rounded-lg px-4 py-3 text-sm text-[#242420] dark:text-white placeholder:text-[#242420]/30 dark:placeholder:text-white/25 outline-none focus:border-[#C3110F]/60 focus:ring-2 focus:ring-[#C3110F]/15 transition-all"
+                  className="w-full bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] rounded-lg px-4 py-3 text-sm text-ink placeholder:text-ink/30 outline-none focus:border-[#C3110F]/60 focus:ring-2 focus:ring-[#C3110F]/15 transition-all"
                 />
               </div>
             )}
 
             <div>
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-[0.15em]">
+                <label className="text-[10px] font-bold text-ink/55 uppercase tracking-[0.15em]">
                   Password
                 </label>
                 {mode === "login" && (
@@ -330,13 +330,13 @@ function AuthForm() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className="w-full bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] rounded-lg px-4 py-3 text-sm text-[#242420] dark:text-white placeholder:text-[#242420]/30 dark:placeholder:text-white/25 outline-none focus:border-[#C3110F]/60 focus:ring-2 focus:ring-[#C3110F]/15 transition-all pr-11"
+                  className="w-full bg-white dark:bg-white/[0.04] border border-black/[0.08] dark:border-white/[0.08] rounded-lg px-4 py-3 text-sm text-ink placeholder:text-ink/30 outline-none focus:border-[#C3110F]/60 focus:ring-2 focus:ring-[#C3110F]/15 transition-all pr-11"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPass(!showPass)}
                   aria-label={showPass ? "Hide password" : "Show password"}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#242420]/40 dark:text-white/40 hover:text-[#242420]/70 dark:hover:text-white/70 transition-colors"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-ink/40 hover:text-ink/70 transition-colors"
                 >
                   {showPass ? <EyeOff size={15} /> : <Eye size={15} />}
                 </button>
@@ -353,7 +353,7 @@ function AuthForm() {
             </button>
           </form>
 
-          <p className="text-center text-xs text-[#242420]/45 dark:text-white/45 mt-6">
+          <p className="text-center text-xs text-ink/45 mt-6">
             {mode === "login" ? "No account? " : "Have an account? "}
             <button
               onClick={() => setMode(mode === "login" ? "signup" : "login")}
@@ -370,7 +370,7 @@ function AuthForm() {
 
 export default function AuthPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-[#f5f5f3] dark:bg-[#0c0c0b]" />}>
+    <Suspense fallback={<div className="min-h-screen bg-canvas" />}>
       <AuthForm />
     </Suspense>
   );

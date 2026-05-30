@@ -2,6 +2,22 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+/* ── Theme tokens ───────────────────────────────────────────────────────── */
+/* Single source of truth for the light / dark palette. Tweak these values   */
+/* to retune the whole site. Tailwind v4 auto-generates utilities from each  */
+/* `--color-*` entry, so you can use `bg-canvas`, `text-ink/45`, etc.        */
+@theme {
+  --color-canvas: #ebebe8;   /* page background — softer than pure off-white */
+  --color-surface: #ffffff;  /* cards, dropdowns, floating elevated UI       */
+  --color-ink: #242420;      /* primary text                                 */
+}
+
+.dark {
+  --color-canvas: #1a1a18;   /* dark page background — softer than near-black */
+  --color-surface: #222220;  /* dark elevated surfaces                        */
+  --color-ink: #ffffff;      /* primary text inverts in dark mode             */
+}
+
 /* ── Map circle animations ───────────────────────────────────────────────── */
 /* Handled via inline style transitions in MapClientDark.tsx so they survive  */
 /* Leaflet's internal SVG redraws (triggered by map.stop / viewport changes). */
