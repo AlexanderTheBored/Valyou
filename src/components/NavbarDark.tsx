@@ -128,7 +128,7 @@ export default function NavbarDark() {
             </Link>
           </>
         ) : (
-          user && (
+          user?.username && (
             <div className="relative">
               <button
                 onClick={() => setDropdownOpen(!dropdownOpen)}
@@ -218,7 +218,7 @@ export default function NavbarDark() {
                   </Link>
                 </div>
               ) : (
-                user && (
+                user?.username && (
                   <div className="flex flex-col gap-3 py-2 border-t border-black/[0.06] dark:border-white/[0.06]">
                     <div className="flex items-center gap-3 px-3 py-1">
                       <div className="w-9 h-9 rounded-full bg-[#C3110F]/10 border border-[#C3110F]/20 text-[#C3110F] flex items-center justify-center font-bold text-xs uppercase">
