@@ -27,6 +27,11 @@ const MapClientDark = dynamic(() => import("@/components/MapClientDark"), {
   ),
 });
 
+// Maps backend property-type codes to display labels.
+const PROPERTY_TYPE_LABELS: Record<string, string> = {
+  hnl: "House & Lot",
+};
+
 export interface ValuationData {
   id: string;
   latitude: number;
@@ -272,7 +277,7 @@ export default function ValuationReport({
 
             <div className="grid grid-cols-2 gap-3">
               {[
-                { icon: Home, label: "Property Type", value: "House & Lot" },
+                { icon: Home, label: "Property Type", value: PROPERTY_TYPE_LABELS[valuation.type] ?? valuation.type },
                 { icon: LandPlot, label: "Lot Area", value: `${valuation.area} sqm` },
                 {
                   icon: CalendarDays,
@@ -300,64 +305,68 @@ export default function ValuationReport({
           </div>
 
           {/* Valuation Reliability — radial gauge + stats */}
-          <div className="bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col">
-            <h3 className="text-xs font-bold text-[#242420] dark:text-white uppercase tracking-[0.15em] mb-4">
-              Valuation Reliability
-            </h3>
+          <div className="bg-white dark:bg-[#141413] border border-black/[0.06] dark:border-white/[0.06] rounded-xl p-5 sm:p-6 shadow-sm flex flex-col justify-between">
+            <div>
+              <h3 className="text-xs font-bold text-[#242420] dark:text-white uppercase tracking-[0.15em] mb-4">
+                Valuation Reliability
+              </h3>
 
-            <div className="flex items-center gap-5 sm:gap-6">
-              {/* R² radial gauge */}
-              <div className="relative w-28 h-28 shrink-0">
-                <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="42"
-                    fill="none"
-                    strokeWidth="9"
-                    className="stroke-black/[0.07] dark:stroke-white/10"
-                  />
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="42"
-                    fill="none"
-                    strokeWidth="9"
-                    strokeLinecap="round"
-                    className="stroke-[#C3110F] dark:stroke-[#E52E2C]"
-                    strokeDasharray={gaugeCirc}
-                    strokeDashoffset={gaugeOffset}
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <span className="text-2xl font-black text-[#242420] dark:text-white tabular-nums leading-none">
-                    {r2Pct}%
-                  </span>
-                  <span className="text-[9px] font-bold uppercase tracking-wider text-[#242420]/45 dark:text-white/45 mt-1">
-                    R² Fit
-                  </span>
-                </div>
-              </div>
-
-              {/* Supporting stats */}
-              <div className="flex-1 space-y-4 min-w-0">
-                <div>
-                  <p className="text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-wider mb-1">
-                    Listings Used
-                  </p>
-                  <p className="text-2xl font-black text-[#242420] dark:text-white tabular-nums leading-none">
-                    {valuation.listings_used}
-                    <span className="text-xs font-medium text-[#242420]/50 dark:text-white/50 ml-1.5">comparisons</span>
+              <div className="flex items-center gap-5 sm:gap-6">
+                {/* R² gauge */}
+                <div className="flex flex-col items-center shrink-0">
+                  <div className="relative w-28 h-28">
+                    <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="42"
+                        fill="none"
+                        strokeWidth="9"
+                        className="stroke-black/[0.07] dark:stroke-white/10"
+                      />
+                      <circle
+                        cx="50"
+                        cy="50"
+                        r="42"
+                        fill="none"
+                        strokeWidth="9"
+                        strokeLinecap="round"
+                        className="stroke-[#C3110F] dark:stroke-[#E52E2C]"
+                        strokeDasharray={gaugeCirc}
+                        strokeDashoffset={gaugeOffset}
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <span className="text-2xl font-black text-[#242420] dark:text-white tabular-nums leading-none">
+                        {r2Pct}%
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-[9px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-[0.12em] mt-2">
+                    R² Model Fit
                   </p>
                 </div>
-                <div>
-                  <p className="text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-wider mb-1.5">
-                    Confidence
-                  </p>
-                  <span className="inline-flex items-center gap-1.5 bg-emerald-500/[0.08] text-emerald-600 dark:text-emerald-400 rounded-full px-2.5 py-1 text-xs font-bold">
-                    <Sparkles size={12} />
-                    {valuation.confidence}
-                  </span>
+
+                {/* Supporting stats */}
+                <div className="flex-1 space-y-4 min-w-0">
+                  <div>
+                    <p className="text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-wider mb-1">
+                      Listings Used
+                    </p>
+                    <p className="text-xl font-black text-[#242420] dark:text-white tabular-nums leading-none">
+                      {valuation.listings_used}
+                      <span className="text-xs font-medium text-[#242420]/50 dark:text-white/50 ml-1.5">comparisons</span>
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold text-[#242420]/55 dark:text-white/55 uppercase tracking-wider mb-1.5">
+                      Confidence
+                    </p>
+                    <span className="inline-flex items-center gap-1.5 bg-emerald-500/[0.08] text-emerald-600 dark:text-emerald-400 rounded-full px-2.5 py-1 text-xs font-bold">
+                      <Sparkles size={12} />
+                      {valuation.confidence}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
