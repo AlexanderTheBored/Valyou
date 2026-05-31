@@ -320,7 +320,7 @@ function MapPageInner() {
                   <label className="block text-[10px] font-bold text-ink/55 uppercase tracking-[0.18em] mb-3">
                     Search Radius
                   </label>
-                  <div className="relative px-1 select-none">
+                  <div className="relative select-none">
                     <input
                       type="range"
                       min="0"
@@ -332,16 +332,22 @@ function MapPageInner() {
                       onTouchEnd={handleDragEnd}
                       className="w-full accent-[#C3110F] h-1.5 bg-black/[0.08] dark:bg-white/[0.08] rounded-lg appearance-none cursor-pointer focus:outline-none"
                     />
-                    <div className="flex justify-between text-[11px] text-ink/45 mt-2.5 font-bold">
-                      {RADIUS_VALUES.map((val) => (
-                        <span 
-                          key={val} 
+                    <div className="relative mt-2.5 h-4">
+                      {RADIUS_VALUES.map((val, i) => {
+                        const frac = i / (RADIUS_VALUES.length - 1);
+                        const thumbHalf = 8;
+                        const offset = (1 - 2 * frac) * thumbHalf;
+                        return (
+                        <span
+                          key={val}
                           onClick={() => setRadius(val)}
-                          className={`cursor-pointer transition-colors ${radius === val ? "text-[#C3110F] dark:text-[#E52E2C]" : "hover:text-ink/70"}`}
+                          style={{ left: `calc(${frac * 100}% + ${offset}px)` }}
+                          className={`absolute -translate-x-1/2 text-[11px] font-bold cursor-pointer transition-colors ${radius === val ? "text-[#C3110F] dark:text-[#E52E2C]" : "text-ink/45 hover:text-ink/70"}`}
                         >
                           {val}km
                         </span>
-                      ))}
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
